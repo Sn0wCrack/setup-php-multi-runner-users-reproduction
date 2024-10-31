@@ -1,10 +1,7 @@
 name: Deployment
 
-permissions:
-  contents: write
-  packages: write
-
 on:
+  workflow_dispatch:
   release:
     types: [ released ]
 
