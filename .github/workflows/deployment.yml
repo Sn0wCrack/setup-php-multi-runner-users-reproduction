@@ -23,6 +23,8 @@ jobs:
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
+        with:
+          ignore-cache: true
 
       - name: Build Phar File
         run: |
@@ -51,6 +53,8 @@ jobs:
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
+        with:
+          ignore-cache: true
 
       - name: Build Phar File
         run: |
