@@ -1,0 +1,95 @@
+name: Deployment
+
+permissions:
+  contents: write
+  packages: write
+
+on:
+  release:
+    types: [ released ]
+
+jobs:
+  phar:
+    name: Phar
+    runs-on: [self-hosted, Linux]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@verbose
+        with:
+          php-version: '8.2'
+          extensions: sodium, zlib, :php-psr
+        env:
+          runner: self-hosted
+
+      - name: Install PHP Dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Build Phar File
+        run: |
+          php application app:build --build-version=${{ github.ref_name }} -vvv
+          mv ./builds/application ./builds/application.phar
+          chmod +x ./builds/application.phar
+
+  static:
+    name: Static
+    runs-on: [self-hosted, Linux]
+
+    strategy:
+      matrix:
+        os: ["macos-aarch64", "macos-x86_64", "linux-x86_64", "linux-aarch64", "windows-x86_64"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@verbose
+        with:
+          php-version: '8.2'
+          extensions: sodium, zlib, :php-psr
+        env:
+          runner: self-hosted
+
+      - name: Install PHP Dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Build Phar File
+        run: |
+          php application app:build --build-version=${{ github.ref_name }} -vvv
+          mv ./builds/application ./builds/application.phar
+          chmod +x ./builds/application.phar
+
+      - id: output_file
+        name: Generate Output Filename
+        run: |
+          OUTPUT_FILE="./builds/application-${{ matrix.os }}"
+          if [[ "${{ matrix.os }}" == windows* ]]; then
+            OUTPUT_FILE="./builds/application-${{ matrix.os }}.exe"
+          fi
+          echo "name=${OUTPUT_FILE}" >> $GITHUB_OUTPUT
+
+      - name: Create Micro Binary
+        run: |
+          TMP_FOLDER="/tmp/application/${{ matrix.os }}"
+
+          mkdir -p "${TMP_FOLDER}"
+
+          if [[ "${{ matrix.os }}" == windows* ]]; then
+            curl -L -o "${TMP_FOLDER}/php-micro.zip" https://dl.static-php.dev/static-php-cli/windows/spc-max/php-8.2.22-micro-win.zip
+            unzip -o "${TMP_FOLDER}/php-micro.zip" -d "${TMP_FOLDER}"
+          else
+            curl -L -o "${TMP_FOLDER}/php-micro.tar.gz" https://dl.static-php.dev/static-php-cli/common/php-8.2.22-micro-${{ matrix.os }}.tar.gz
+            tar -xvzf "${TMP_FOLDER}/php-micro.tar.gz" -C "${TMP_FOLDER}"
+          fi
+
+          cat "${TMP_FOLDER}/micro.sfx" ./builds/application.phar > ${{ steps.output_file.outputs.name }}
+          chmod +x ${{ steps.output_file.outputs.name }}
+
+      - name: Cleanup Micro Binaries
+        if: always()
+        run: |
+          TMP_FOLDER="/tmp/application/${{ matrix.os }}"
+
+          rm -rf "${TMP_FOLDER}"
