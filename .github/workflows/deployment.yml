@@ -18,6 +18,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
+          tools-dir: '~/.local/bin'
         env:
           runner: self-hosted
 
@@ -48,6 +49,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
+          tools-dir: '~/.local/bin'
         env:
           runner: self-hosted
 
