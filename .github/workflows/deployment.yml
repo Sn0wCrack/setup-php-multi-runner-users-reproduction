@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@develop
+        uses: 'sn0wcrack/setup-php@feature/override-tool-path-directory'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@develop
+        uses: 'sn0wcrack/setup-php@feature/override-tool-path-directory'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
