@@ -13,12 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - id: tools_directory
+        name: Get Tools Directory
+        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
+
       - name: Setup PHP
         uses: 'sn0wcrack/setup-php@feature/override-tool-path-directory'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
-          tools-dir: '~/.local/bin'
+          tools-dir: ${{ steps.build_file.outputs.directory }}
         env:
           runner: self-hosted
 
@@ -44,12 +48,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - id: tools_directory
+        name: Get Tools Directory
+        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
+
       - name: Setup PHP
         uses: 'sn0wcrack/setup-php@feature/override-tool-path-directory'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
-          tools-dir: '~/.local/bin'
+          tools-dir: ${{ steps.build_file.outputs.directory }}
         env:
           runner: self-hosted
 
