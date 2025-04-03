@@ -22,7 +22,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
-          tools-dir: ${{ steps.build_file.outputs.directory }}
+          tools-dir: ${{ steps.tools_directory.outputs.directory }}
         env:
           runner: self-hosted
 
@@ -57,7 +57,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: sodium, zlib, :php-psr
-          tools-dir: ${{ steps.build_file.outputs.directory }}
+          tools-dir: ${{ steps.tools_directory.outputs.directory }}
         env:
           runner: self-hosted
 
