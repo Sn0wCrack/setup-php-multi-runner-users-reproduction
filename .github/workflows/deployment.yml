@@ -25,6 +25,7 @@ jobs:
           tools-dir: ${{ steps.tools_directory.outputs.directory }}
         env:
           runner: self-hosted
+          tools_dir: ${{ steps.tools_directory.outputs.directory }} 
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
@@ -57,9 +58,10 @@ jobs:
         with:
           php-version: '8.2'
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
-          tools-dir: ${{ steps.tools_directory.outputs.directory }}
         env:
           runner: self-hosted
+          tools_dir: ${{ steps.tools_directory.outputs.directory }} 
+          
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
