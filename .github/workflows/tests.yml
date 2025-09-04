@@ -39,7 +39,7 @@ jobs:
 
       - name: Check Database
         run: |
-          php -r "new mysqli('localhost:${{ job.services.database.ports[3306] }}', 'root', 'secret', 'test');"
+          php -r "mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); $mysqli = new mysqli('localhost:${{ job.services.database.ports[3306] }}', 'root', 'secret', 'test'); echo $mysqli->host_info;"
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
