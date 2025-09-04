@@ -13,10 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - id: tools_directory
-        name: Get Tools Directory
-        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
-
       - name: Setup PHP
         uses: 'shivammathur/setup-php@v2'
         with:
@@ -25,12 +21,9 @@ jobs:
           coverage: pcov
         env:
           runner: self-hosted
-          setup_php_tools_dir: ${{ steps.tools_directory.outputs.directory }} 
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
-        with:
-          ignore-cache: true
 
       - name: Test
         run: |
@@ -54,13 +47,10 @@ jobs:
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
         env:
           runner: self-hosted
-          setup_php_tools_dir: ${{ steps.tools_directory.outputs.directory }} 
           
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
-        with:
-          ignore-cache: true
 
       - name: Lint
         run: |
