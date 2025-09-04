@@ -11,21 +11,16 @@ jobs:
     runs-on: [self-hosted, Linux]
 
     steps:
-      - uses: actions/checkout@v4
-
-      - id: tools_directory
-        name: Get Tools Directory
-        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v2
 
       - name: Setup PHP
-        uses: 'shivammathur/setup-php@v2'
+        uses: 'shivammathur/setup-php@verbose'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
           coverage: pcov
         env:
           runner: self-hosted
-          setup_php_tools_dir: ${{ steps.tools_directory.outputs.directory }} 
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
@@ -49,18 +44,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - id: tools_directory
-        name: Get Tools Directory
-        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
-
       - name: Setup PHP
-        uses: 'shivammathur/setup-php@v2'
+        uses: 'shivammathur/setup-php@verbose'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
         env:
           runner: self-hosted
-          setup_php_tools_dir: ${{ steps.tools_directory.outputs.directory }} 
           
 
       - name: Install PHP Dependencies
