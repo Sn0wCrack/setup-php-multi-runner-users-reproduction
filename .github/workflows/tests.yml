@@ -48,30 +48,30 @@ jobs:
         run: |
           php application test --coverage
 
-  # lint:
-  #   name: Lint
-  #   runs-on: [self-hosted, Linux]
+  lint:
+    name: Lint
+    runs-on: [self-hosted, Linux]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - id: tools_directory
-  #       name: Get Tools Directory
-  #       run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
+      - id: tools_directory
+        name: Get Tools Directory
+        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
 
-  #     - name: Setup PHP
-  #       uses: 'shivammathur/setup-php@v2'
-  #       with:
-  #         php-version: '8.2'
-  #         extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
-  #       env:
-  #         runner: self-hosted
+      - name: Setup PHP
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '8.2'
+          extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
+        env:
+          runner: self-hosted
           
 
-  #     - name: Install PHP Dependencies
-  #       uses: ramsey/composer-install@v3
+      - name: Install PHP Dependencies
+        uses: ramsey/composer-install@v3
 
-  #     - name: Lint
-  #       run: |
-  #         ./vendor/bin/pint --test
+      - name: Lint
+        run: |
+          ./vendor/bin/pint --test
     
