@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: 'shivammathur/setup-php@v2'
+        uses: 'shivammathur/setup-php@verbose'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
@@ -55,12 +55,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - id: tools_directory
-        name: Get Tools Directory
-        run: echo "directory=${HOME}/.local/bin" >> $GITHUB_OUTPUT
-
       - name: Setup PHP
-        uses: 'shivammathur/setup-php@v2'
+        uses: 'shivammathur/setup-php@verbose'
         with:
           php-version: '8.2'
           extensions: sodium, zlib, dom, iconv, mbstring, filter, openssl, tokenizer, phar, :php-psr
