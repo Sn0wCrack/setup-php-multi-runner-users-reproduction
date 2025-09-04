@@ -20,7 +20,7 @@ jobs:
         ports:
           - 3306
         options: >-
-          --health-cmd="mysqladmin -u root --password=secret ping"
+          --health-cmd="mysqladmin -u root --password=password ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -36,6 +36,10 @@ jobs:
           coverage: pcov
         env:
           runner: self-hosted
+
+      - name: Check Database
+        run: |
+          php -r "new mysqli('localhost:${{ job.services.database.ports[3306] }}', 'root', 'secret', 'test');"
 
       - name: Install PHP Dependencies
         uses: ramsey/composer-install@v3
