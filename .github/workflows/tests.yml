@@ -14,13 +14,13 @@ jobs:
       database:
         image: mariadb:11
         env:
-          MYSQL_DATABASE: test
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: secret
+          MARIADB_DATABASE: test
+          MARIADB_ALLOW_EMPTY_PASSWORD: false
+          MARIADB_ROOT_PASSWORD: secret
         ports:
           - 3306
         options: >-
-          --health-cmd="mysqladmin -u root --password=password ping"
+          --health-cmd="mariadb-admin -u root --password=secret ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
